@@ -61,3 +61,7 @@ body {
 .keyboard-row-4 {
   margin-left: 110px;
 }
+
+.keyboard-key-pressed {
+  background-color: green;
+}

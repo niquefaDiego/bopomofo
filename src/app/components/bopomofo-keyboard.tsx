@@ -1,78 +1,88 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type BopomofoKeybaordKeyProps = {
     character: string;
     code: string;
+    isPressed: boolean;
 }
 
 
 function BopomofoKeybaordKey(props: BopomofoKeybaordKeyProps) {
   return (
-    <div className="keyboard-key">{props.character}</div>
+    <div className={props.isPressed ? "keyboard-key keyboard-key-pressed": "keyboard-key"}>{props.character}</div>
   );
 }
 
 export default function BopomofoKeybaord() {
+
+
+  var [pressedKeyCodes, setPressedKeyCodes] = useState<Set<string>> (() => new Set<string>());
+
+  function createKeyProps(char: string, code: string): BopomofoKeybaordKeyProps {
+    return { character: char, code: code, isPressed: pressedKeyCodes.has(code) };
+  }
+
   var row1: BopomofoKeybaordKeyProps[] = [
-    { character: "`", code: "Backquote" },
-    { character: "ㄅ", code: "Digit1" },
-    { character: "ㄉ", code: "Digit2" },
-    { character: "ˇ", code: "Digit3" },
-    { character: "ˋ", code: "Digit4" },
-    { character: "ㄓ", code: "Digit5" },
-    { character: "ˊ", code: "Digit6" },
-    { character: "ㄚ", code: "Digit7" },
-    { character: "ㄞ" , code: "Digit8"}, 
-    { character: "ㄢ", code: "Digit9" },
-    { character: "ㄦ", code: "Digit0" },
-    { character: "=", code: "Minus" },
+    createKeyProps("`", "Backquote"),
+    createKeyProps("ㄅ", "Digit1"),
+    createKeyProps("ㄉ", "Digit2"),
+    createKeyProps("ˇ", "Digit3"),
+    createKeyProps("ˋ", "Digit4"),
+    createKeyProps("ㄓ", "Digit5"),
+    createKeyProps("ˊ", "Digit6"),
+    createKeyProps("ㄚ", "Digit7"),
+    createKeyProps("ㄞ" , "Digit8"),
+    createKeyProps("ㄢ", "Digit9"),
+    createKeyProps("ㄦ", "Digit0"),
+    createKeyProps("=", "Minus"),
   ];
   var row2: BopomofoKeybaordKeyProps[] = [
-    { character: "ㄆ", code: "KeyQ" },
-    { character: "ㄊ", code: "KeyW" },
-    { character: "ㄍ", code: "KeyE" },
-    { character: "ㄐ", code: "KeyR" },
-    { character: "ㄔ", code: "KeyT"},
-    { character: "ㄗ", code: "KeyY" },
-    { character: "一", code: "KeyU" },
-    { character: "ㄛ", code: "KeyI" },
-    { character: "ㄟ", code: "KeyO" },
-    { character: "ㄣ", code: "KeyP" },
+    createKeyProps("ㄆ", "KeyQ"),
+    createKeyProps("ㄊ", "KeyW"),
+    createKeyProps("ㄍ", "KeyE"),
+    createKeyProps("ㄐ", "KeyR"),
+    createKeyProps("ㄔ", "KeyT"),
+    createKeyProps("ㄗ", "KeyY"),
+    createKeyProps("一", "KeyU"),
+    createKeyProps("ㄛ", "KeyI"),
+    createKeyProps("ㄟ", "KeyO"),
+    createKeyProps("ㄣ", "KeyP"),
   ];
   var row3: BopomofoKeybaordKeyProps[] = [
-    { character: "ㄇ", code: "KeyA" },
-    { character: "ㄋ", code: "KeyS" },
-    { character: "ㄎ", code: "KeyD" },
-    { character: "ㄑ", code: "KeyF" },
-    { character: "ㄕ", code: "KeyG" },
-    { character: "ㄘ", code: "KeyH" },
-    { character: "ㄨ", code: "KeyJ" },
-    { character: "ㄜ", code: "KeyK" },
-    { character: "ㄠ", code: "KeyL" },
-    { character: "ㄤ", code: "Semicolon" },
+    createKeyProps("ㄇ", "KeyA"),
+    createKeyProps("ㄋ", "KeyS"),
+    createKeyProps("ㄎ", "KeyD"),
+    createKeyProps("ㄑ", "KeyF"),
+    createKeyProps("ㄕ", "KeyG"),
+    createKeyProps("ㄘ", "KeyH"),
+    createKeyProps("ㄨ", "KeyJ"),
+    createKeyProps("ㄜ", "KeyK"),
+    createKeyProps("ㄠ", "KeyL"),
+    createKeyProps("ㄤ", "Semicolon"),
   ];
   var row4: BopomofoKeybaordKeyProps[] = [
-    { character: "ㄈ", code: "KeyZ" },
-    { character: "ㄌ", code: "KeyX" },
-    { character: "ㄏ", code: "KeyC" },
-    { character: "ㄒ", code: "KeyV" },
-    { character: "ㄖ", code: "KeyB" },
-    { character: "ㄗ", code: "KeyN" },
-    { character: "ㄩ", code: "KeyM" },
-    { character: "ㄝ", code: "KeyM" },
-    { character: "ㄡ", code: "Comma" },
-    { character: "ㄥ", code: "Period" },
+    createKeyProps("ㄈ", "KeyZ"),
+    createKeyProps("ㄌ", "KeyX"),
+    createKeyProps("ㄏ", "KeyC"),
+    createKeyProps("ㄒ", "KeyV"),
+    createKeyProps("ㄖ", "KeyB"),
+    createKeyProps("ㄗ", "KeyN"),
+    createKeyProps("ㄩ", "KeyM"),
+    createKeyProps("ㄝ", "KeyM"),
+    createKeyProps("ㄡ", "Comma"),
+    createKeyProps("ㄥ", "Period"),
   ];
 
   function handleKeyDown(event: KeyboardEvent) {
-    console.log(`Highlighting key with code ${event.code}`);
-    // TODO
+    var newPressedKeyCodes = new Set<string>(pressedKeyCodes);
+    setPressedKeyCodes(newPressedKeyCodes.add(event.code));
   }
 
   function handleKeyUp(event: KeyboardEvent) {
-    console.log(`Unhighlighting key with code ${event.code}`);
-    // TODO
+    var newPressedKeyCodes = new Set<string>(pressedKeyCodes);
+    newPressedKeyCodes.delete(event.code);
+    setPressedKeyCodes(newPressedKeyCodes);
   }
 
   useEffect(() => {
@@ -84,16 +94,16 @@ export default function BopomofoKeybaord() {
   return (
     <div>
       <div className="keyboard-row-1">
-        {row1.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character}/>))}
+        {row1.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character} isPressed={characterProp.isPressed}/>))}
       </div>
       <div className="keyboard-row-2">
-        {row2.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character}/>))}
+        {row2.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character} isPressed={characterProp.isPressed}/>))}
       </div>
       <div className="keyboard-row-3">
-        {row3.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character}/>))}
+        {row3.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character} isPressed={characterProp.isPressed}/>))}
       </div>
       <div className="keyboard-row-4">
-        {row4.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character}/>))}
+        {row4.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character} isPressed={characterProp.isPressed}/>))}
       </div>
 
       <div>
