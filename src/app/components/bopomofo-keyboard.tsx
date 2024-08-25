@@ -31,11 +31,12 @@ export default function BopomofoKeybaord() {
     createKeyProps("ˋ", "Digit4"),
     createKeyProps("ㄓ", "Digit5"),
     createKeyProps("ˊ", "Digit6"),
-    createKeyProps("ㄚ", "Digit7"),
-    createKeyProps("ㄞ" , "Digit8"),
-    createKeyProps("ㄢ", "Digit9"),
-    createKeyProps("ㄦ", "Digit0"),
-    createKeyProps("=", "Minus"),
+    createKeyProps("˙", "Digit7"),
+    createKeyProps("ㄚ", "Digit8"),
+    createKeyProps("ㄞ" , "Digit9"),
+    createKeyProps("ㄢ", "Digit0"),
+    createKeyProps("ㄦ", "Minus"),
+    createKeyProps("=", "Equals"),
   ];
   var row2: BopomofoKeybaordKeyProps[] = [
     createKeyProps("ㄆ", "KeyQ"),
@@ -69,9 +70,9 @@ export default function BopomofoKeybaord() {
     createKeyProps("ㄖ", "KeyB"),
     createKeyProps("ㄗ", "KeyN"),
     createKeyProps("ㄩ", "KeyM"),
-    createKeyProps("ㄝ", "KeyM"),
-    createKeyProps("ㄡ", "Comma"),
-    createKeyProps("ㄥ", "Period"),
+    createKeyProps("ㄝ", "Comma"),
+    createKeyProps("ㄡ", "Period"),
+    createKeyProps("ㄥ", "Slash"),
   ];
 
   function handleKeyDown(event: KeyboardEvent) {
