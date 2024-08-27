@@ -4,4 +4,5 @@ module.exports = {
   transform: {
     "^.+.tsx?$": ["ts-jest",{}],
   },
+  setupFiles: ["./src/test-utils/setup.ts"],
 };

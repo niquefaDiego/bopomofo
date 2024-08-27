@@ -1,4 +1,4 @@
-import { validateIsTrue } from "@/utils/validations-utils";
+import { validateIsTrue } from "../../utils/validations-utils";
 
 type ZhuyinInitial = null|"ㄅ"|"ㄘ"|"ㄔ"|"ㄉ"|"ㄈ"|"ㄍ"|"ㄏ"|"ㄐ"|"ㄎ"|"ㄌ"|"ㄇ"|"ㄋ"|"ㄆ"|"ㄑ"|"ㄖ"|"ㄙ"|"ㄕ"|"ㄊ"|"ㄒ"|"ㄗ"|"ㄓ";
 type ZhuyinFinal = null|"ㄚ"|"ㄞ"|"ㄠ"|"ㄢ"|"ㄜ"|"ㄝ"|"ㄟ"|"ㄥ"|"ㄦ"|"一"|"ㄣ"|"ㄛ"|"ㄨ"|"ㄤ"|"ㄡ"|"ㄩ";
