@@ -1,4 +1,4 @@
-import { ValidationError } from "@/utils/errors";
+import { ValidationError } from "./errors";
 
 function validateIsTrue(flag: boolean, errorMessage: string): void {
   if (!flag) {
