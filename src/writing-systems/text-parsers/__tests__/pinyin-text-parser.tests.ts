@@ -1,31 +1,37 @@
-import {PinyinTextParser} from "../";
-import {PinyinText, PinyinSyllable, PinyinFinal, PinyinInitial, PinyinTone} from "../../models";
+import { ValidationError } from "../../../utils/errors";
+import { PinyinTextParser } from "../";
+import { PinyinText, PinyinSyllable, PinyinFinal, PinyinInitial, PinyinTone } from "../../models";
 
-describe("PininTextParser", () => {
+describe("PinyinTextParser", () => {
   
   var parser = new PinyinTextParser();
 
   function runParserTestCase(inputText: string, expected: PinyinText) {
     var result = parser.parse(inputText);
     if (result.tokens.length != expected.tokens.length) {
-      fail(`parsing "${inputText}" resulted in ${result.tokens.length} tokens instead of ${expected.tokens.length} tokens.`);
+      fail(`parsing "${inputText}" resulted in ${result.tokens.length} tokens instead of ${expected.tokens.length}.`);
     }
     for (var i = 0; i < expected.tokens.length; i++) {
       var parsedToken = result.tokens[i];
       var expectedToken =  expected.tokens[i];
       if (typeof(parsedToken) != typeof(expectedToken)) {
-        fail(`parsing "${inputText}" failed at token ${i}. Expected token of type ${typeof(expectedToken)} but got ${typeof(parsedToken)}.`);
+        fail(`parsing "${inputText}" failed at token ${i}. `
+          + `Expected token of type ${typeof(expectedToken)} but got ${typeof(parsedToken)}.`);
       }
       if (typeof(parsedToken) == "string" && typeof(expectedToken) == "string") {
         if (parsedToken != expectedToken) {
-          fail(`parsing "${inputText}" failed at token ${i}. Unexpected type ${typeof(parsedToken)}, should be either string or PinyinSyllable.`);
+          fail(`parsing "${inputText}" failed at token ${i}. Unexpected type ${typeof(parsedToken)}`
+            + `, should be either string or PinyinSyllable.`);
         }
       } else if (parsedToken instanceof PinyinSyllable && expectedToken instanceof PinyinSyllable) {
-        if (parsedToken.initial != parsedToken.initial || parsedToken.final != parsedToken.final || parsedToken.tone != expectedToken.tone) {
+        if (parsedToken.initial != parsedToken.initial
+          || parsedToken.final != parsedToken.final
+          || parsedToken.tone != expectedToken.tone) {
           fail(`parsing "${inputText}" failed at token ${i}. Expected ${parsedToken} but got ${expectedToken}.`);
         }
       } else {
-        fail(`parsing "${inputText}" failed at token ${i}. Unexpected type ${typeof(parsedToken)}, should be either string or PinyinSyllable.`);
+        fail(`parsing "${inputText}" failed at token ${i}. Unexpected type ${typeof(parsedToken)}, `
+          + `should be either string or PinyinSyllable.`);
       }
     }
   }
@@ -51,8 +57,10 @@ describe("PininTextParser", () => {
       " ", s("m", "an", 4), " ", s("y", "i", 1), " ", s("d", "ian", 3), " ", s("m", "a", null), "?"
     ]));
   });
+
   it("Correctly throws exception for invalid pinyin", () => {
-    expect(2).toEqual(1+1);
-    // TODO
+    var emptyPinyin = new PinyinText([]);
+    expect(() => runParserTestCase("ni6", emptyPinyin)).toThrow(ValidationError);
+    expect(() => runParserTestCase("ni3hhao3", emptyPinyin)).toThrow(ValidationError);
   });
 });

@@ -3,6 +3,7 @@
   "rules": {
     "quotes": [2, "double", { "avoidEscape": true, "allowTemplateLiterals": true }],
     "semi": [2, "always"],
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "max-len": ["error", { "code": 120 }]
   }
 }
