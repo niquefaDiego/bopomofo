@@ -1,9 +1,9 @@
-import { isBlankCharacter } from "@/utils/string-utils";
-import { PinyinSyllable, PinyinText, PinyinTextToken } from "../models/pyinin";
-import { ZhuyinSyllable, ZhuyinText, ZhuyinTextToken } from "../models/zhuyin";
+import { PinyinSyllable, PinyinText, PinyinTextToken, PinyinTone } from "../models/pyinin";
+import { ZhuyinFinal, ZhuyinInitial, ZhuyinSyllable, ZhuyinText, ZhuyinTextToken, ZhuyinTone } from "../models/zhuyin";
+import { AssertionError } from "../../utils/errors";
 
 
-const initials: {[key: string]: string} = {
+const initials: {[key: string]: ZhuyinInitial} = {
   "b": "ㄅ",
   "c": "ㄘ",
   "ch": "ㄔ",
@@ -27,31 +27,46 @@ const initials: {[key: string]: string} = {
   "zh": "ㄓ",
 };
 
-const toneMarkers: {[key: string]: string} = {
-  "0": "˙", // neutral tone (Zhuyin has no tone markers)
-  // zhuyin has no simbol for tone 1
-  "2": "ˊ",
-  "3": "ˇ",
-  "4": "ˋ"
-};
 
-const finals: {[key: string]: string} = {
+const finals: {[key: string]: ZhuyinFinal} = {
   "a": "ㄚ",
   "ai": "ㄞ",
-  "ao": "ㄠ",
   "an": "ㄢ",
-  "e": "ㄜㄝ", // special case, e in pinyin can be either ㄜ or ㄝ depending on context
-  "ei": "ㄟ",
+  "ao": "ㄠ",
+  "ang": "ㄤ",
+  "e": "ㄜ",
+  "en": "ㄣ",
   "eng": "ㄥ",
+  "ei": "ㄟ",
   "er": "ㄦ",
   "i": "一",
-  "n": "ㄣ",
+  "ia": "一ㄚ",
+  "ian": "一ㄢ",
+  "iang": "一ㄤ",
+  "iao": "一ㄠ",
+  "ie": "一ㄝ",
+  "in": "一ㄣ",
+  "ing": "一ㄥ",
+  "io": "一ㄛ",
+  "iong": "ㄩㄥ",
+  "iu": "一ㄡ",
   "o": "ㄛ",
+  "ong": "ㄨㄥ",
   "u": "ㄨ",
-  "ang": "ㄤ",
   "ou": "ㄡ",
+  "ua": "ㄨㄚ",
+  "uan": "ㄨㄢ",
+  "uang": "ㄨㄤ",
+  "uai": "ㄨㄞ",
+  "ui": "ㄨㄟ",
+  "uo": "ㄨㄛ",
+  "un": "ㄨㄣ",
   "v": "ㄩ",
+  "ve": "ㄩㄝ",
+  "van": "ㄩㄢ",
+  "vn": "ㄩㄣ"
 };
+
 
 class PinyinToZhuyinTranslator
 {
@@ -66,8 +81,37 @@ class PinyinToZhuyinTranslator
     return pinyinToken;
   }
 
+  private translateTone(pinyinTone: PinyinTone): ZhuyinTone {
+    if (pinyinTone == null) return "˙"; // neutral tone (Zhuyin has no tone markers)
+    if (pinyinTone == 1) return null; // zhuyin has no simbol for tone 1
+    if (pinyinTone == 2) return "ˊ";
+    if (pinyinTone == 3) return "ˇ";
+    if (pinyinTone == 4) return "ˋ";
+    throw new AssertionError(`Unexpected pinyin tone '${pinyinTone}`);
+  }
+
   private translateSyllable(pinyinSyllable: PinyinSyllable): ZhuyinSyllable {
-    return new ZhuyinSyllable(null, null, null); // TODO
+    var initial: ZhuyinInitial = null;
+    var final: ZhuyinFinal = null;
+    if (pinyinSyllable.initial == "y") {
+      final = finals[(pinyinSyllable.final == "i" ? "" : "i") + pinyinSyllable.final];
+      if (final == null) throw new AssertionError(`Unexpected pinyin final for initial 'y': '${pinyinSyllable.final}'`);
+    } else if (pinyinSyllable.initial == "w") {
+      final = finals["u" + pinyinSyllable.final];
+      if (final == null) throw new AssertionError(`Unexpected pinyin final for initial 'w': '${pinyinSyllable.final}'`);
+    } else if (pinyinSyllable.initial != null) {
+      initial = initials[pinyinSyllable.initial];
+      if (initial == null)
+        throw new AssertionError(`Unexpected pinyin initial '${pinyinSyllable.initial}.`);
+    }
+
+    if (final == null) {
+      final = finals[pinyinSyllable.final];
+      if (final == null) throw new AssertionError(`Unexpected pinyin final: '${pinyinSyllable.final}'`);
+    }
+
+    var tone: ZhuyinTone = this.translateTone(pinyinSyllable.tone);
+    return new ZhuyinSyllable(initial, final, tone);
   }
 }
 
