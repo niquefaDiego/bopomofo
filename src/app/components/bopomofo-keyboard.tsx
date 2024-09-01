@@ -90,7 +90,7 @@ export default function BopomofoKeybaord() {
 
     document.addEventListener("keydown", handleKeyDown, true);
     document.addEventListener("keyup", handleKeyUp, true);
-  }, [pressedKeyCodes]);
+  });
 
 
   return (
