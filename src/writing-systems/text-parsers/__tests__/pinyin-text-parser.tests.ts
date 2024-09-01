@@ -20,8 +20,7 @@ describe("PinyinTextParser", () => {
       }
       if (typeof(parsedToken) == "string" && typeof(expectedToken) == "string") {
         if (parsedToken != expectedToken) {
-          fail(`parsing "${inputText}" failed at token ${i}. Unexpected type ${typeof(parsedToken)}`
-            + `, should be either string or PinyinSyllable.`);
+          fail(`parsing "${inputText}" failed at token ${i}. Expected "${expectedToken}" but got "${parsedToken}.`);
         }
       } else if (parsedToken instanceof PinyinSyllable && expectedToken instanceof PinyinSyllable) {
         if (parsedToken.initial != parsedToken.initial
