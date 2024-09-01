@@ -1,5 +1,15 @@
-type PinyinInitial = null|"b"|"c"|"ch"|"d"|"f"|"g"|"h"|"j"|"k"|"l"|"m"|"n"|"p"|"q"|"r"|"sh"|"s"|"t"|"w"|"x"|"y"|"z"|"zh";
-type PinyinFinal =  "a"|"ai"|"an"|"ang"|"ao"|"e"|"en"|"eng"|"ei"|"er"|"i"|"ia"|"ian"|"iang"|"iao"|"ie"|"in"|"ing"|"io"|"iong"|"iu"|"o"|"ong"|"ou"|"u"|"ua"|"uan"|"uang"|"uai"|"ui"|"uo"|"un"|"v"|"ve"|"van"|"vn";
+
+type PinyinInitial =
+  null|"b"|"c"|"ch"|"d"|"f"|"g"|"h"|"j"|"k"|"l"|"m"|"n"|"p"|"q"|"r"|"sh"|"s"|"t"|"w"|"x"|"y"|"z"|"zh";
+
+type PinyinFinal =
+  "a"|"ai"|"an"|"ang"|"ao"|
+  "e"|"en"|"eng"|"ei"|"er"|
+  "i"|"ia"|"ian"|"iang"|"iao"|"ie"|"in"|"ing"|"io"|"iong"|"iu"|
+  "o"|"ong"|"ou"|
+  "u"|"ua"|"uan"|"uang"|"uai"|"ui"|"uo"|"un"|
+  "v"|"ve"|"van"|"vn";
+
 type PinyinTone = null|1|2|3|4;
 
 class PinyinSyllable
@@ -9,6 +19,7 @@ class PinyinSyllable
   tone: PinyinTone;
 
   public toString(): string {
+    // TODO: Make it "hǎo" instead of "hao3"
     return (this.initial ?? "") + this.final + (this.tone ?? "");
   }
 

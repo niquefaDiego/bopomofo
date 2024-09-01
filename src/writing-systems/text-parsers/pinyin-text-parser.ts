@@ -45,7 +45,8 @@ class PinyinTextParser implements TextParser<PinyinText>
       
       var possibleFinals: Array<PinyinFinal> = this.finalsStartingWithCharacter[ch];
       if (possibleFinals == null) {
-        throw new AssertionError(`Unexpected character '${ch}' at position ${i} while parsing final. Text = "${text}" (Initial = "${initial}")`);
+        throw new ValidationError(
+          `Invalid final starting with '${ch}' at position ${i}. Text = "${text}" (Initial = "${initial}")`);
       } else {
         for (var possibleFinal of possibleFinals) {
           if (text.substring(i, i + possibleFinal.length) == possibleFinal && possibleFinal.length > final.length) {
@@ -65,6 +66,8 @@ class PinyinTextParser implements TextParser<PinyinText>
         var toneInt = parseInt(text.charAt(i));
         tone = toneInt == 0 ? null : toneInt as PinyinTone;
         i++;
+      } else if (i < text.length && "56789".includes(text.charAt(i))) {
+        throw new ValidationError(`Invalid tone marker ${text.charAt(i)} at position ${i}. Text = "${text}"`);
       }
 
       tokens.push(new PinyinSyllable(initial, final, tone));

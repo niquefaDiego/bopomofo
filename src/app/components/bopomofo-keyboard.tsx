@@ -75,36 +75,57 @@ export default function BopomofoKeybaord() {
     createKeyProps("ㄥ", "Slash"),
   ];
 
-  function handleKeyDown(event: KeyboardEvent) {
-    var newPressedKeyCodes = new Set<string>(pressedKeyCodes);
-    setPressedKeyCodes(newPressedKeyCodes.add(event.code));
-  }
-
-  function handleKeyUp(event: KeyboardEvent) {
-    var newPressedKeyCodes = new Set<string>(pressedKeyCodes);
-    newPressedKeyCodes.delete(event.code);
-    setPressedKeyCodes(newPressedKeyCodes);
-  }
 
   useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      var newPressedKeyCodes = new Set<string>(pressedKeyCodes);
+      setPressedKeyCodes(newPressedKeyCodes.add(event.code));
+    }
+    
+    function handleKeyUp(event: KeyboardEvent) {
+      var newPressedKeyCodes = new Set<string>(pressedKeyCodes);
+      newPressedKeyCodes.delete(event.code);
+      setPressedKeyCodes(newPressedKeyCodes);
+    }
+
     document.addEventListener("keydown", handleKeyDown, true);
     document.addEventListener("keyup", handleKeyUp, true);
-  }, []);
+  });
 
 
   return (
     <div>
       <div className="keyboard-row-1">
-        {row1.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character} isPressed={characterProp.isPressed}/>))}
+        {row1.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (
+          <BopomofoKeybaordKey
+            character={characterProp.character}
+            code={characterProp.code}
+            key={characterProp.character}
+            isPressed={characterProp.isPressed}/>))}
       </div>
       <div className="keyboard-row-2">
-        {row2.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character} isPressed={characterProp.isPressed}/>))}
+        {row2.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (
+          <BopomofoKeybaordKey
+            character={characterProp.character}
+            code={characterProp.code}
+            key={characterProp.character}
+            isPressed={characterProp.isPressed}/>))}
       </div>
       <div className="keyboard-row-3">
-        {row3.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character} isPressed={characterProp.isPressed}/>))}
+        {row3.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (
+          <BopomofoKeybaordKey
+            character={characterProp.character}
+            code={characterProp.code}
+            key={characterProp.character}
+            isPressed={characterProp.isPressed}/>))}
       </div>
       <div className="keyboard-row-4">
-        {row4.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (<BopomofoKeybaordKey character={characterProp.character} code={characterProp.code} key={characterProp.character} isPressed={characterProp.isPressed}/>))}
+        {row4.map((characterProp: BopomofoKeybaordKeyProps, index: number) => (
+          <BopomofoKeybaordKey
+            character={characterProp.character}
+            code={characterProp.code}
+            key={characterProp.character}
+            isPressed={characterProp.isPressed}/>))}
       </div>
 
       <div>
